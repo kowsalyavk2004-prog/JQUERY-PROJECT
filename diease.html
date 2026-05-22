@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <div class="icon">
+                 <div class="name">
+
+                    <h1>MedPanel</h1>
+
+                </div>
+                <div class="head-img">
+                    <img src="img/icon.png" alt="">
+
+                </div>
+                 <div class="menu-toggle">
+                    <i class="fa fa-bars"></i>
+                </div>
+
+               
+                 </div>
+        </header>
+        <aside class="sidebar">
+
+            <nav>
+                <ul>
+                    <li> <a href="dashboard.html"><i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            Dashboard</a></li>
+
+                    <li><a href="doctor.html"><i class="fa fa-user-md" aria-hidden="true"></i>
+                            Doctors</a></li>
+                    <li><a href="diease.html"> <i class="fa fa-plus-square"></i>
+                            Diease List</a></li>
+                    <li><a href="patient.html"><i class="fa fa-user" aria-hidden="true"></i> Appoinment</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Log Out</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main>
+
+            <div class="diease-container">
+
+                <div class="diease-show-con">
+
+                    <div class="diease-form ">
+                        <h1>Diease Form</h1>
+                        <form action="" class=" form-d">
+                            <div class="input-box">
+                                <input type="text" placeholder="Diease Name" id="dieasename" required>
+
+                            </div>
+                         
+                            <div class="input-box">
+                                <button id="dieaselist">Submit</button>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+
+                    <div class="show-con">
+                        <div class="search-box">
+                            <input type="text" id="search" placeholder="Search Disease">
+                        </div>
+                       
+
+
+                        <div class="show-detailcon">
+                            <h2>Diease List</h2>
+                            <div class="show-details">
+                               
+                    <div class="show-body">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <ul>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+
+                        </ul>
+                    </div>
+
+                            </div>
+                        </div>
+
+
+
+                      
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer>
+            <p>Copyright © 2025 V Kowsalya</p>
+        </footer>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+
+
+    <script>
+         $(".menu-toggle").click(function () {
+
+            $(".sidebar").toggleClass("active");
+
+        });
+
+        let editIndex = -1;
+        // let dieaselist = [];
+        $(document).ready(function () {
+
+            let dieaselist = JSON.parse(localStorage.getItem("dieaselist")) || [];
+            if (!Array.isArray(dieaselist)) {
+                dieaselist = [];
+            }
+            $("#dieaselist").on("click", (event) => {
+                event.preventDefault()
+                let dieasename = $("#dieasename").val()
+                let dieasespecilist = $("#diease-specilist").val()
+
+                if (dieasename == "") {
+                    alert("Please fill the field");
+                    return;
+                }
+                // console.log(dieaselist)
+                let diease = {
+                    dieasename: dieasename,
+                    dieasespecilist: dieasespecilist
+
+                };
+
+
+
+                if (editIndex == -1) {
+                    alert("Disease Added Successfully");
+                    dieaselist.push(diease);
+                }
+                else {
+                    dieaselist[editIndex] = diease;
+                    editIndex = -1;
+
+                }
+                localStorage.setItem("dieaselist", JSON.stringify(dieaselist));
+                // dieaselist.push(diease);
+
+                localStorage.setItem("dieaselist", JSON.stringify(dieaselist));
+                $('.form-d').trigger('reset');
+                loaddiease();
+            })
+        })
+
+
+        $(document).on("click", ".editbtn", function () {
+            editIndex = $(this).attr("data-id");
+            let dieaselist = JSON.parse(localStorage.getItem("dieaselist")) || [];
+            $("#dieasename").val(
+                dieaselist[editIndex].dieasename);
+
+
+        });
+
+
+        $(document).on("click", ".deletebtn", function () {
+            let confirmDelete = confirm("Are you sure want to delete?");
+            if (confirmDelete) {
+
+                let index = $(this).attr("data-id");
+
+                // GET STORAGE DATA
+
+                let dieaselist = JSON.parse(localStorage.getItem("dieaselist")) || [];
+
+                // DELETE ONLY ONE
+
+                dieaselist.splice(index, 1);
+
+                // SAVE AGAIN
+
+                localStorage.setItem("dieaselist", JSON.stringify(dieaselist)
+                );
+                alert("Disease Deleted Successfully");
+
+                // RELOAD DATA
+
+                loaddiease();
+            }
+
+        });
+
+
+
+
+        let loaddiease = () => {
+            let dielists = JSON.parse(localStorage.getItem("dieaselist")) || []
+            if (!Array.isArray(dielists)) { dielists = []; }  
+            let dieshow = "";
+            dielists.forEach((ele, inde) => {
+                dieshow += `<div class="show-details"> 
+                                <div class="show-body"> 
+                                    <a><i class="fa fa-plus-square"></i></a>
+                            <ul> <li>${ele.dieasename}</li>
+                                
+                               
+                                </ul>
+                            <div class="edit-delebox">
+                                  <button class="editbtn" data-id="${inde}"><i class="fa fa-pencil" aria-hidden="true"></i> </button>
+                                <button class="deletebtn" data-id="${inde}"> <i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+    
+                                         </div>
+
+                              
+                                    </div>
+                                    </div>`;
+            });
+            $(".show-details").html(dieshow);
+        }
+
+
+
+
+        loaddiease();
+
+
+        //search
+
+        $("#search").on("keyup", function () {
+            let value = $(this).val().toLowerCase();
+
+            $(".show-body").filter(function () {
+                $(this).toggle(
+                    $(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+        $("#doctor-detalils").val("");
+        $("#specilist").val("");
+        $("#d-phoneno").val("");
+    </script>
+</body>
+
+</html>

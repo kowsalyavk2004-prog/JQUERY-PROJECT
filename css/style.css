@@ -1,0 +1,593 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    color: white;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.main-container {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: 50px auto 50px;
+    grid-template-areas: 'head head' 'side main' 'footer footer';
+}
+
+header {
+    /* border: 1px solid green; */
+
+    background: linear-gradient(to right, #4b1d3f, #1f2a44);
+    grid-area: head;
+    color: white;
+
+}
+
+aside {
+    /* border: 1px solid; */
+    grid-area: side;
+
+
+    /* background: #243447; */
+    background: linear-gradient(to right, #4b1d3f, #1f2a44);
+    color: white;
+}
+
+.icon {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 5px 0;
+
+}
+
+nav {
+    padding: 0 20px 0 0;
+}
+
+nav ul li a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: block;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    background: #0ea5e9;
+    color: white;
+    transform: translateX(5px);
+}
+
+
+
+.name h1 {
+    /* border: 1px solid;
+    padding-left: 20px; */
+    padding-top: 5px;
+
+}
+
+.head-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    border: 1px solid;
+}
+
+.head-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50px;
+}
+
+main {
+    border: 1px solid blue;
+    grid-area: main;
+    overflow: auto;
+    padding: 1%;
+    text-align: justify;
+    /* height: 100vh; */
+}
+
+footer {
+    /* border: 1px solid; */
+    grid-area: footer;
+    background: linear-gradient(to right, #4b1d3f, #1f2a44);
+    color: white;
+}
+
+footer p {
+    text-align: center;
+    font-size: 17px;
+    padding: 1% 0;
+    color: white;
+}
+
+.Dashboard-container {
+    /* border: 2px solid red; */
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.dash-box {
+    /* border: 1px solid #f116c2; */
+    width: 300px;
+    padding: 20px;
+
+
+}
+
+main h1 {
+    text-align: center;
+}
+
+.dash-box {
+    background-color: #491e40;
+    border-radius: 20px;
+
+}
+
+.box {
+
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+#doctorlist,
+#dieaselist,
+#patientlist {
+    /* border: 1px solid red; */
+    padding: 9px 15px;
+    font-size: 18px;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #2563eb;
+
+    color: white;
+
+    border: none;
+}
+
+
+.box .box-count {
+
+    /* border: 1px solid blue; */
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    background-color: #1f2a44;
+    /* background: #FF4D6D; */
+    color: white;
+    box-shadow: 0px 1px 7px 3px #000000d5;
+
+}
+
+.d-heading h1 {
+    /* border: 1px solid; */
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.count-box {
+    background: #FFB3C1;
+    border-radius: 20px;
+
+}
+
+.box-foot {
+    /* border: 1px solid orangered; */
+}
+
+.box-foot h2 {
+    text-align: center;
+    padding: 10px;
+    color: white;
+}
+
+.box-count h2 {
+    text-align: center;
+    padding-top: 30px;
+
+}
+
+
+.doctor-container {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10%;
+
+    padding: 20px 0;
+}
+
+.input-box {
+    /* border: 1px solid; */
+    padding: 8px 0;
+
+}
+
+.form {
+    /* border: 1px solid; */
+    width: 50%;
+    height: 500px;
+    padding: 15px;
+    backdrop-filter: blur(20px);
+    box-shadow: 1px 1px 14px 1px #6c5252;
+    background: #f4f6fb;
+}
+
+.form-d {
+    /* border: 1px solid; */
+    width: 400px;
+    padding: 15px;
+    backdrop-filter: blur(20px);
+    background: #f4f6fb;
+    box-shadow: 1px 1px 14px 1px #6c5252;
+}
+
+.form-dc {
+    /* border: 1px solid; */
+    width: 400px;
+    height: 400px;
+    backdrop-filter: blur(20px);
+    background: #f4f6fb;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+}
+
+.patient-form {
+    border: 1px solid green;
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-evenly;
+    gap: 6%;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 7px;
+    margin: 7px 0;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid black;
+}
+
+.show-detailcon {
+    /* border: 1px solid; */
+    padding: 10px;
+    background-color: #1f2a44;
+    backdrop-filter: blur(10px);
+
+    color: white;
+
+    width: 402px;
+
+}
+
+.diease-form h1 {
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+.show-detailcon h2 {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.show-body {
+    /* border: 1px solid orangered; */
+
+    border: none;
+    border-bottom: 1px solid;
+    display: flex;
+    align-items: center;
+
+}
+
+.diease-show-con {
+    /* border: 1px solid #ec0f7e; */
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    gap: 10%;
+
+}
+
+
+
+
+.show-body a i {
+    /* border: 1px solid; */
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    padding: 10px 14px;
+}
+
+.show-body ul {
+    width: 50%;
+}
+
+.show-details ul {
+    /* border: 1px solid red; */
+    padding: 10px 0;
+}
+
+.patient-body ul {
+    /* border: 1px solid red; */
+    padding: 10px 0;
+}
+
+.show-body ul li {
+    list-style: none;
+    padding: 7px 0;
+}
+
+.deletebtn {
+    border: none;
+    background-color: #dc2626;
+    color: white;
+}
+
+.editbtn {
+    border: none;
+    background-color: #16a34a;
+    color: white;
+}
+
+.edit-delebox i {
+
+    font-size: 18px;
+    padding: 10px 13px;
+    /* border: 1px solid; */
+
+
+}
+
+
+.edit-delebox {
+    /* border: 1px solid; */
+    position: relative;
+    left: 10%;
+}
+
+.edit-deleboxp {
+
+    position: relative;
+    left: 0;
+}
+
+.diease-container {
+    /* border: 1px solid yellow; */
+}
+
+.patient-container {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+}
+
+.patient-container h1 {
+    text-align: center;
+}
+
+.patient-box {
+
+    width: 31%;
+    font-size: 13px;
+    padding: 10px;
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+
+
+.patient-body ul li span {
+    font-weight: 500;
+
+    display: inline-block;
+
+}
+
+.patient-body ul li {
+    display: flex;
+
+    padding: 6px 0;
+    font-size: 14px;
+    margin-bottom: 5px;
+
+}
+
+.patient-img {
+    /* border: 1px solid; */
+    width: 50px;
+    height: 50px;
+}
+
+.patient-img img {
+    /* border: 1px solid; */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.search {
+    border: 1px solid;
+    width: 100%;
+}
+
+
+
+
+
+#searchdiease {
+    /* width: 100%; */
+    padding: 10px;
+    outline: none;
+    border: 1px solid black;
+
+    color: black;
+}
+
+.chart-box {
+    width: 600px;
+    height: 500px;
+    background: transparent;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 30px auto;
+}
+
+
+@media all and (max-width:768px) {
+
+
+    .form {
+        border: 1px solid orangered;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+    }
+
+
+
+
+
+
+
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        font-size: 16px;
+    }
+
+    .form {
+        width: 100%;
+    }
+
+    .show-detailcon {
+        width: 100%;
+    }
+
+    .show-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        /* flex-wrap: wrap; */
+        gap: 10px;
+    }
+
+    .show-details ul {
+        width: 65%;
+
+    }
+
+    .edit-delebox {
+        /* display: flex;
+         gap: 5px; */
+        /* position: static; */
+    }
+
+    .editbtn,
+    .deletebtn {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 6px;
+    }
+
+    .form-d {
+        border: 1px solid;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .patient-form {
+        border: 1px solid green;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 10px;
+    }
+
+    .patient-box {
+        /* border: 1px solid greenyellow; */
+        width: 100%;
+        /* height: 250px; */
+        padding: 10px;
+        background: linear-gradient(135deg, #0f766e, #14b8a6);
+        color: white;
+        /* border-radius: 12px; */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .chart-box {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        /* padding: 20px; */
+        border-radius: 20px;
+        /* margin: 30px auto; */
+        /* border: 1px solid red; */
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        width: 250px;
+        height: 100%;
+        transition: 0.3s;
+        z-index: 1000;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+}

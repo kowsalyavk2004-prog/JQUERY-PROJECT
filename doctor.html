@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <div class="icon">
+                <div class="name">
+
+                    <h1>MedPanel</h1>
+
+                </div>
+                <div class="head-img">
+                    <img src="img/icon.png" alt="">
+
+                </div>
+                 <div class="menu-toggle">
+                    <i class="fa fa-bars"></i>
+                </div>
+
+
+            </div>
+            <!-- <label for="bar-check" class="ss">
+                        <i class="fa fa-bars "></i>
+                    </label> -->
+        </header>
+        <aside class="sidebar">
+
+            <nav>
+                <ul>
+                    <li> <a href="dashboard.html"><i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            Dashboard</a></li>
+
+                    <li><a href="doctor.html"><i class="fa fa-user-md" aria-hidden="true"></i>
+                            Doctors</a></li>
+                    <li><a href="diease.html"> <i class="fa fa-plus-square"></i>
+                            Diease List</a></li>
+                    <li><a href="patient.html"><i class="fa fa-user" aria-hidden="true"></i> Appoinment</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Log Out</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main>
+            <div class="doctor-container">
+
+                <div class="d-heading">
+                    <h1>Doctor Registration</h1><Wbr></Wbr>
+
+                    <form action="" class=" form-dc">
+
+                        <div class="input-box">
+                            <label for="Doctor Name">Doctor Name</label><br>
+                            <input type="text" id="doctor-detalils" required>
+                        </div>
+                        <div class="input-box">
+                            <label for="specilist">Specilist</label><br>
+                            <input type="text" id="specilist" required>
+                        </div>
+
+                        <div class="input-box">
+                            <label for="phone no">Phone No</label><br>
+                            <input type="number" id="d-phoneno" required>
+                        </div>
+                        <div class="input-box">
+                            <button id="doctorlist">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="show-con">
+                    <div class="show-detailcon">
+                        <h2>Doctor List</h2>
+                        <div class="show-details">
+
+                            <div class="show-body">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <ul>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </main>
+
+        <footer>
+            <p>Copyright © 2025 V Kowsalya</p>
+        </footer>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+
+
+
+    <script>
+        $(".menu-toggle").click(function () {
+
+            $(".sidebar").toggleClass("active");
+
+        });
+        let editIndex = -1;
+
+        $(document).ready(function () {
+
+
+            let doctorlist = JSON.parse(localStorage.getItem("doctorlist")) || [];
+
+            $("#doctorlist").on("click", (event) => {
+                event.preventDefault()
+                let doctorname = $("#doctor-detalils").val()
+                let specilist = $("#specilist").val()
+                let phoneno = $("#d-phoneno").val()
+                if (doctorname == "" || specilist == "" || phoneno == "") {
+                    alert("Please fill all fields");
+                    return;
+                }
+
+                let doctor = {
+                    doctorname: doctorname,
+                    specilist: specilist,
+                    phoneno: phoneno
+                };
+
+
+                if (editIndex == -1) {
+                    doctorlist.push(doctor);
+                    alert("Doctor Added Successfully");
+                }
+                else {
+                    doctorlist[editIndex] = doctor;
+                    alert("Doctor Updated Successfully");
+                    editIndex = -1;
+
+                }
+                localStorage.setItem("doctorlist", JSON.stringify(doctorlist));
+
+
+                $('.form-dc').trigger('reset');
+
+                loaddoctor()
+
+
+            })
+
+
+        })
+
+        $(document).on("click", ".editbtn", function () {
+
+            editIndex = $(this).attr("data-id");
+            let doctorlist = JSON.parse(localStorage.getItem("doctorlist")) || [];
+            $("#doctor-detalils").val(
+                doctorlist[editIndex].doctorname);
+            $("#specilist").val(
+                doctorlist[editIndex].specilist);
+            $("#d-phoneno").val(
+                doctorlist[editIndex].phoneno);
+
+            loaddoctor();
+        });
+
+
+
+
+        $(document).on("click", ".deletebtn", function () {
+            let confirmDelete = confirm("Are you sure want to delete?");
+            if (confirmDelete) {
+
+
+
+                let index = $(this).attr("data-id");
+
+                // GET STORAGE DATA
+
+                let doctorlist =
+                    JSON.parse(localStorage.getItem("doctorlist")) || [];
+
+                // DELETE ONLY ONE
+
+                doctorlist.splice(index, 1);
+
+                // SAVE AGAIN
+
+                localStorage.setItem("doctorlist", JSON.stringify(doctorlist));
+                alert("Doctor Deleted Successfully");
+
+                // RELOAD DATA
+
+                loaddoctor();
+            }
+
+        });
+
+
+
+
+
+
+
+
+
+
+        let loaddoctor = () => {
+            let dlists = JSON.parse(localStorage.getItem("doctorlist")) || []
+            if (!Array.isArray(dlists)) {
+                dlists = [];
+            }  
+            let show = "";
+            dlists.forEach((ele, inde) => {
+                show += `<div class="show-details"> 
+                                <div class="show-body"> 
+                                    <a><i class="fa fa-user" aria-hidden="true"></i></a>
+                            <ul> <li>${ele.doctorname}</li>
+                                <li>${ele.specilist}</li>
+                                <li>${ele.phoneno}</li>
+                                </ul>
+                            <div class="edit-delebox">
+                                  <button class="editbtn" data-id="${inde}"><i class="fa fa-pencil" aria-hidden="true"></i> </button>
+                                <button class="deletebtn" data-id="${inde}"> <i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+    
+                                         </div>
+
+                              
+                                    </div>
+                                    </div>`;
+            });
+            $(".show-details").html(show);
+        }
+
+        loaddoctor();
+
+        $("#doctor-detalils").val("");
+        $("#specilist").val("");
+        $("#d-phoneno").val("");
+    </script>
+</body>
+
+</html>

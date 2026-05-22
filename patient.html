@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <div class="icon">
+                <div class="name">
+
+                    <h1>MedPanel</h1>
+
+                </div>
+                <div class="head-img">
+                    <img src="img/icon.png" alt="">
+
+                </div>
+                <div class="menu-toggle">
+                    <i class="fa fa-bars"></i>
+                </div>
+
+
+            </div>
+        </header>
+        <aside class="sidebar">
+
+            <nav>
+                <ul>
+                    <li> <a href="dashboard.html"><i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            Dashboard</a></li>
+
+                    <li><a href="doctor.html"><i class="fa fa-user-md" aria-hidden="true"></i>
+                            Doctors</a></li>
+                    <li><a href="diease.html"> <i class="fa fa-plus-square"></i>
+                            Diease List</a></li>
+
+                    <li><a href="patient.html"><i class="fa fa-user" aria-hidden="true"></i> Appoinment</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Log Out</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main>
+
+
+
+
+            <div class="patient-form">
+                <form action="" class="form ">
+                    <div class="input-box">
+                        <label for="patient name">PatientName</label>
+                        <input type="text" name="" id="patientname">
+                        <span id="dieaseerr"></span>
+                    </div>
+                    <div class="input-box">
+                        <label for="phone no">PhoneNo</label>
+                        <input type="number" name="" id="patientno">
+
+                    </div>
+                    
+                    <div class="input-box">
+                        <select name="Doctor Name" id="selectdoctor">
+                            <option value="">Choose Doctor </option>
+                            <option value="Dr.ArjunKumar MBBS,MD">Dr.ArjunKumarMBBS,MD</option>
+                            <option value="Dr.Priya Sharma MBBS, DM">Dr.Priya Sharma MBBS, DM</option>
+                            <option value="Dr.Rahul Singh MBBS, MS">Dr.Rahul Singh MBBS, MS</option>
+                            <option value="Dr.KarthikRaj MBBS, MD">Dr.KarthikRaj MBBS, MD</option>
+                            <option value="Dr.Sneha Patel BDS,MDS"> Dr.Sneha Patel BDS,MDS</option>
+
+
+                        </select>
+
+
+                    </div>
+                    <!-- 
+                    <div class="input-box">
+                        <select name="Reasoning" id="selectspecilist">
+                            <option value=""> Choose Specialist </option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Neurologist">Neurologist</option>
+                            <option value="Orthopedic">Orthopedic</option>
+                            <option value="Dermatologist">Dermatologist</option>
+                            <option value="Dentist"> Dentist</option>
+
+
+                        </select>
+
+
+                    </div> -->
+                    <select id="dieasenamep">
+                        <option value="">Choose Disease</option>
+                    </select>
+
+                    <div class="input-box">
+                        <label for="address">Address</label>
+                        <input type="text" name="" id="patientadd">
+
+                    </div>
+
+                    <div class="input-box">
+                        <button id="patientlist">Submit</button>
+                    </div>
+                </form>
+                <div class="search">
+                    <div class="search-box">
+                        <input type="text" placeholder="search" id="searchdiease">
+
+                    </div>
+
+                    <div class="patient-container">
+                        <h1>Parent List</h1>
+                        <div class="patient-box">
+                            <div class="patient-info">
+                                <div class="patient-img">
+                                   
+                                    <img src="img/user-icon-on-transparent-background-free-png.webp" alt="">
+                                </div>
+                                <div class="patient-body">
+                                    <ul>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+
+                                        <li></li>
+
+
+                                    </ul>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </main>
+
+        <footer>
+            <p>Copyright © 2025 V Kowsalya</p>
+        </footer>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+
+
+
+    <script>
+        $(".menu-toggle").click(function () {
+
+            $(".sidebar").toggleClass("active");
+
+        });
+
+        let editIndex = -1;
+        $(document).ready(function () {
+
+
+            function loadDisease() {
+
+                let dieaselist = JSON.parse(localStorage.getItem("dieaselist")) || [];
+
+                let option = `<option value="">Choose Disease</option>`;
+
+                dieaselist.forEach((ele) => {
+
+                    option += `
+        <option value="${ele.dieasename}">
+            ${ele.dieasename}
+        </option>`;
+
+                });
+
+                $("#dieasenamep").html(option);
+            }
+            
+
+
+
+
+
+            let patientlist = JSON.parse(localStorage.getItem("patientlist")) || [];
+
+
+
+            $(".form").on("submit", (event) => {
+
+
+                let patientlist = JSON.parse(localStorage.getItem("patientlist")) || [];
+                if (!Array.isArray(patientlist)) { patientlist = []; }
+                event.preventDefault()
+
+                let patientname = $("#patientname").val()
+                let patientno = $("#patientno").val()
+                let dieasenamep = $("#dieasenamep").val()
+                let selectdoctor = $("#selectdoctor").val()
+                // let selectspecilist = $("#selectspecilist").val()
+                let patientaddress = $("#patientadd").val()
+
+
+                if (patientname == "" || patientno == "" || dieasenamep == "" || selectdoctor == "" || patientaddress == "") {
+                    alert("Please fill all fields");
+                    return;
+                }
+
+
+
+
+
+
+                let patient = {
+                    patientname: patientname,
+                    patientno: patientno,
+                    selectdoctor: selectdoctor,
+                    // selectspecilist: selectspecilist,
+                    dieasenamep: dieasenamep,
+                    patientaddress: patientaddress
+
+
+                };
+                if (editIndex == -1) {
+                    patientlist.push(patient);
+                    alert("Patient Added Successfully");
+                }
+                else {
+                    patientlist[editIndex] = patient;
+                    alert("Patient Updated Successfully");
+                    editIndex = -1;
+
+
+                }
+                localStorage.setItem("patientlist", JSON.stringify(patientlist));
+              
+
+
+
+                localStorage.setItem("patientlist", JSON.stringify(patientlist))
+
+
+                $('.form').trigger('reset');
+
+                loadDisease()
+                loadpatient()
+
+
+            })
+
+            $(document).on("click", ".editbtn", function () {
+                editIndex = $(this).attr("data-id");
+                let patientlist = JSON.parse(localStorage.getItem("patientlist")) || [];
+                $("#patientname").val(
+                    patientlist[editIndex].patientname);
+                $("#patientno").val(
+                    patientlist[editIndex].patientno);
+                $("#dieasenamep").val(
+                    patientlist[editIndex].dieasenamep);
+                $("#selectdoctor").val(
+                    patientlist[editIndex].selectdoctor);
+
+                $("#patientadd").val(
+                    patientlist[editIndex].patientadd);
+
+            });
+
+
+
+
+            $(document).on("click", ".deletebtn", function () {
+                let confirmDelete = confirm("Are you sure want to delete?");
+                if (confirmDelete) {
+
+                    let index = $(this).attr("data-id");
+
+            
+
+                    let patientlist = JSON.parse(localStorage.getItem("patientlist")) || [];
+
+                 
+
+                    patientlist.splice(index, 1);
+
+                  
+
+                    localStorage.setItem("patientlist", JSON.stringify(patientlist));
+                    alert("Patient Deleted Successfully");
+
+                   
+                    loadDisease();
+
+                    loadpatient();
+                }
+
+            });
+
+
+
+            let loadpatient = () => {
+                let lists = JSON.parse(localStorage.getItem("patientlist")) || [];
+                let patientlist = ''
+                lists.forEach((ele, inde) => {
+                    patientlist += `  <div class="patient-box">
+                        <div class="patient-img">
+                           
+                            <img src="img/user-icon-on-transparent-background-free-png.webp" alt="">
+                        </div>
+                        <div class="patient-body">
+                            <ul>
+                               <li> <span>Name :</span>${ele.patientname} </li>
+                               <li> <span>Phone No :</span>${ele.patientno} </li>
+                              <li> <span>Doctor:</span>${ele.selectdoctor} </li>
+                             
+                              <li> <span>Diease Name:</span>${ele.dieasenamep} </li>
+                              <li><span>Address:</span>${ele.patientaddress}</li>
+                              
+
+
+                            </ul>
+                        </div>
+                         <div class="edit-delebox edit-deleboxp">
+                                  <button class="editbtn" data-id="${inde}"><i class="fa fa-pencil" aria-hidden="true"></i> </button>
+                                <button class="deletebtn" data-id="${inde}"> <i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+    
+                                         </div>
+
+                    </div>`
+                })
+
+                $(".patient-container").html(patientlist)
+            }
+
+            loadDisease();
+            loadpatient();
+
+            $("#searchdiease").on("keyup", function () {
+
+                let searchValue = $(this).val().toLowerCase();
+
+                $(".patient-box").filter(function () {
+
+                    $(this).toggle(
+                        $(this).text().toLowerCase().indexOf(searchValue) > -1
+                    );
+
+                });
+
+            });
+
+            $("#searchdiease").on("keyup", () => {
+                let lists = JSON.parse(localStorage.getItem("patientlist"))
+                let searchName = $("#searchdiease").val()
+                console.log(searchName);
+                if (searchName == "") {
+                    loadpatient()
+                } else {
+                    let filtered = lists.filter((ele) => ele.dieasenamep == searchName)
+
+                    let patientlist = ''
+                    filtered.forEach((ele, inde) => {
+                        patientlist += `<div class="patient-box">
+                        <div class="patient-img">
+                           
+                            <img src="img/user-icon-on-transparent-background-free-png.webp" alt="">
+                        </div>
+                        <div class="patient-body">
+                            <ul>
+                                <li>${ele.patientname}</li>
+                                <li>${ele.patientno}</li>
+                                <li>${ele.selectdoctor}</li>
+                               
+                                <li>${ele.dieasenamep}</li>
+                              <li>${ele.patientaddress}</li>
+
+
+                            </ul>
+                        </div>
+
+                    </div>`
+                    })
+
+                    $(".patient-show").html(patientlist)
+                }
+
+            })
+        })
+
+
+
+    </script>
+</body>
+
+</html>
