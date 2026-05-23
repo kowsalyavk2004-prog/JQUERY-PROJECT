@@ -65,9 +65,9 @@
                         <input type="number" name="" id="patientno">
 
                     </div>
-                    
+
                     <div class="input-box">
-                        <select name="Doctor Name" id="selectdoctor">
+                        <!-- <select name="Doctor Name" id="selectdoctor">
                             <option value="">Choose Doctor </option>
                             <option value="Dr.ArjunKumar MBBS,MD">Dr.ArjunKumarMBBS,MD</option>
                             <option value="Dr.Priya Sharma MBBS, DM">Dr.Priya Sharma MBBS, DM</option>
@@ -76,34 +76,27 @@
                             <option value="Dr.Sneha Patel BDS,MDS"> Dr.Sneha Patel BDS,MDS</option>
 
 
+                        </select> -->
+
+                        <select id="doctotrp">
+                            <option value="">Choose Doctor</option>
                         </select>
 
 
                     </div>
-                    <!-- 
+
                     <div class="input-box">
-                        <select name="Reasoning" id="selectspecilist">
-                            <option value=""> Choose Specialist </option>
-                            <option value="Cardiology">Cardiology</option>
-                            <option value="Neurologist">Neurologist</option>
-                            <option value="Orthopedic">Orthopedic</option>
-                            <option value="Dermatologist">Dermatologist</option>
-                            <option value="Dentist"> Dentist</option>
-
-
+                        <select id="dieasenamep">
+                            <option value="">Choose Disease</option>
                         </select>
+                    </div>
 
 
-                    </div> -->
-                    <select id="dieasenamep">
-                        <option value="">Choose Disease</option>
-                    </select>
-
-                    <div class="input-box">
+                    <!-- <div class="input-box">
                         <label for="address">Address</label>
                         <input type="text" name="" id="patientadd">
 
-                    </div>
+                    </div> -->
 
                     <div class="input-box">
                         <button id="patientlist">Submit</button>
@@ -120,8 +113,9 @@
                         <div class="patient-box">
                             <div class="patient-info">
                                 <div class="patient-img">
-                                   
-                                    <img src="img/user-icon-on-transparent-background-free-png.webp" alt="">
+                                    <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> -->
+
+                                    <img src="img/user.png" alt="">
                                 </div>
                                 <div class="patient-body">
                                     <ul>
@@ -166,6 +160,7 @@
 
 
     <script>
+
         $(".menu-toggle").click(function () {
 
             $(".sidebar").toggleClass("active");
@@ -193,7 +188,25 @@
 
                 $("#dieasenamep").html(option);
             }
-            
+
+            function loaddoctor() {
+                let doctorlist = JSON.parse(localStorage.getItem("doctorlist")) || [];
+                let option = `<option value="">Choose Doctor</option>`;
+                doctorlist.forEach((ele) => {
+
+                    option += `
+        <option value="${ele.doctorname}">
+            ${ele.doctorname}
+        </option>`;
+
+                });
+
+                $("#doctotrp").html(option);
+
+
+
+
+            }
 
 
 
@@ -213,12 +226,12 @@
                 let patientname = $("#patientname").val()
                 let patientno = $("#patientno").val()
                 let dieasenamep = $("#dieasenamep").val()
-                let selectdoctor = $("#selectdoctor").val()
+                let selectdoctor = $("#doctotrp").val()
                 // let selectspecilist = $("#selectspecilist").val()
-                let patientaddress = $("#patientadd").val()
 
 
-                if (patientname == "" || patientno == "" || dieasenamep == "" || selectdoctor == "" || patientaddress == "") {
+
+                if (patientname == "" || patientno == "" || dieasenamep == "" || selectdoctor == "") {
                     alert("Please fill all fields");
                     return;
                 }
@@ -231,10 +244,10 @@
                 let patient = {
                     patientname: patientname,
                     patientno: patientno,
-                    selectdoctor: selectdoctor,
+                    doctotrp: selectdoctor,
                     // selectspecilist: selectspecilist,
                     dieasenamep: dieasenamep,
-                    patientaddress: patientaddress
+                    // patientaddress: patientaddress
 
 
                 };
@@ -250,7 +263,7 @@
 
                 }
                 localStorage.setItem("patientlist", JSON.stringify(patientlist));
-              
+
 
 
 
@@ -260,6 +273,7 @@
                 $('.form').trigger('reset');
 
                 loadDisease()
+                loaddoctor()
                 loadpatient()
 
 
@@ -274,11 +288,11 @@
                     patientlist[editIndex].patientno);
                 $("#dieasenamep").val(
                     patientlist[editIndex].dieasenamep);
-                $("#selectdoctor").val(
-                    patientlist[editIndex].selectdoctor);
+                $("#doctotrp").val(
+                    patientlist[editIndex].doctotrp);
 
-                $("#patientadd").val(
-                    patientlist[editIndex].patientadd);
+                // $("#patientadd").val(
+                //     patientlist[editIndex].patientadd);
 
             });
 
@@ -291,21 +305,22 @@
 
                     let index = $(this).attr("data-id");
 
-            
+
 
                     let patientlist = JSON.parse(localStorage.getItem("patientlist")) || [];
 
-                 
+
 
                     patientlist.splice(index, 1);
 
-                  
+
 
                     localStorage.setItem("patientlist", JSON.stringify(patientlist));
                     alert("Patient Deleted Successfully");
 
-                   
+
                     loadDisease();
+                    loaddoctor();
 
                     loadpatient();
                 }
@@ -327,10 +342,10 @@
                             <ul>
                                <li> <span>Name :</span>${ele.patientname} </li>
                                <li> <span>Phone No :</span>${ele.patientno} </li>
-                              <li> <span>Doctor:</span>${ele.selectdoctor} </li>
+                              <li> <span>Doctor:</span>${ele.doctotrp} </li>
                              
                               <li> <span>Diease Name:</span>${ele.dieasenamep} </li>
-                              <li><span>Address:</span>${ele.patientaddress}</li>
+                         
                               
 
 
@@ -349,6 +364,7 @@
             }
 
             loadDisease();
+            loaddoctor();
             loadpatient();
 
             $("#searchdiease").on("keyup", function () {
@@ -379,16 +395,16 @@
                         patientlist += `<div class="patient-box">
                         <div class="patient-img">
                            
-                            <img src="img/user-icon-on-transparent-background-free-png.webp" alt="">
+                             <img src="img/user.png" alt="">
                         </div>
                         <div class="patient-body">
                             <ul>
                                 <li>${ele.patientname}</li>
                                 <li>${ele.patientno}</li>
-                                <li>${ele.selectdoctor}</li>
+                                <li>${ele.doctotrp}</li>
                                
                                 <li>${ele.dieasenamep}</li>
-                              <li>${ele.patientaddress}</li>
+                          
 
 
                             </ul>
